@@ -1,0 +1,2 @@
+INCLUDEPATH += $$PWD/sdk
+DEPENDPATH += $$PWD/sdk
