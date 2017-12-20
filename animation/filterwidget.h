@@ -1,6 +1,7 @@
 #ifndef FILTERWIDGET_H
 #define FILTERWIDGET_H
 
+#include <QGraphicsColorizeEffect>
 #include <QImage>
 #include <QPropertyAnimation>
 #include <QWidget>
@@ -24,6 +25,7 @@ public:
   void setSourceThumbnail(const QImage &sourceThumbnail);
   void updateThumbnail();
 
+  QPropertyAnimation *colorAnimation();
   QString title() const;
 
 signals:
@@ -39,6 +41,8 @@ private:
   Filter &mFilter;
 
   QPropertyAnimation mSelectionAnimation;
+  QPropertyAnimation mColorAnimation;
+  QGraphicsColorizeEffect mColorEffect;
 
   QImage mDefaultSourcePicture;
   QImage mSourcePicture;

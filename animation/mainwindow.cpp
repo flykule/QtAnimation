@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), mSourcePicture(),
       mSourceThumbnail(), mCurrentPixmap(), mFilterLoader(),
       mLoadPictureANimation(), mPictureOpacityEffect(), mCurrentFilter(nullptr),
-      mFilteredPicture(mSourcePicture), mFilters() {
+      mFiltersGroupAnimation(), mFilteredPicture(mSourcePicture), mFilters() {
   ui->setupUi(this);
   ui->pictureLabel->setMinimumSize(1, 1);
   ui->actionSaveAs->setEnabled(false);
@@ -38,10 +38,11 @@ void MainWindow::loadPicture() {
   for (int i = 0; i < mFilters.size(); ++i) {
     mFilters[i]->setSourcePicture(mSourcePicture);
     mFilters[i]->setSourceThumbnail(mSourceThumbnail);
-    mFilters[i]->updateThumbnail();
+    //    mFilters[i]->updateThumbnail();
   }
   mCurrentFilter->process();
   mLoadPictureANimation.start();
+  mFiltersGroupAnimation.start();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {}
@@ -85,6 +86,9 @@ void MainWindow::initAnimations() {
   mLoadPictureANimation.setStartValue(0);
   mLoadPictureANimation.setEndValue(1);
   mLoadPictureANimation.setEasingCurve(QEasingCurve::InExpo);
+  for (FilterWidget *filterWidget : mFilters) {
+    mFiltersGroupAnimation.addAnimation(filterWidget->colorAnimation());
+  }
 }
 
 void MainWindow::updatePicturePixmap() {

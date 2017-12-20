@@ -9,6 +9,7 @@
 
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
+#include <QSequentialAnimationGroup>
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +36,7 @@ private:
   void initFilters();
   void initAnimations();
   void updatePicturePixmap();
+  QSequentialAnimationGroup mFiltersGroupAnimation;
 
   QImage mSourcePicture;
   QImage mSourceThumbnail;

@@ -10,6 +10,7 @@ FilterWidget::FilterWidget(Filter &filter, QWidget *parent)
       mDefaultSourcePicture(":/lenna.jpg"), mSourcePicture(),
       mSourceThumbnail(mDefaultSourcePicture.scaled(
           QSize(256, 256), Qt::KeepAspectRatio, Qt::SmoothTransformation)),
+      mColorAnimation(new QPropertyAnimation()), mColorEffect(),
       mSelectionAnimation(), mFilteredPicture(), mFilteredThumbnail() {
   ui->setupUi(this);
   ui->titleLabel->setText(mFilter.name());
@@ -43,6 +44,8 @@ void FilterWidget::updateThumbnail() {
   ui->thumbnailLabel->setPixmap(pixmap);
 }
 
+QPropertyAnimation *FilterWidget::colorAnimation() { return &mColorAnimation; }
+
 QString FilterWidget::title() const { return mFilter.name(); }
 
 void FilterWidget::mousePressEvent(QMouseEvent *) {
@@ -51,6 +54,18 @@ void FilterWidget::mousePressEvent(QMouseEvent *) {
 }
 
 void FilterWidget::initAnimations() {
+  mColorEffect.setColor(QColor(0, 150, 150));
+  mColorEffect.setStrength(0.0);
+  ui->thumbnailLabel->setGraphicsEffect(&mColorEffect);
+
+  mColorAnimation.setTargetObject(&mColorEffect);
+  mColorAnimation.setPropertyName("strength");
+  mColorAnimation.setDuration(200);
+  mColorAnimation.setStartValue(1.0);
+  mColorAnimation.setEndValue(0.0);
+  connect(&mColorAnimation, &QPropertyAnimation::finished,
+          [this] { updateThumbnail(); });
+
   mSelectionAnimation.setTargetObject(ui->thumbnailLabel);
   mSelectionAnimation.setPropertyName("geometry");
   mSelectionAnimation.setDuration(200);
