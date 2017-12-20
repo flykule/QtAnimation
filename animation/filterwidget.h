@@ -2,6 +2,7 @@
 #define FILTERWIDGET_H
 
 #include <QImage>
+#include <QPropertyAnimation>
 #include <QWidget>
 
 namespace Ui {
@@ -32,8 +33,12 @@ protected:
   void mousePressEvent(QMouseEvent *) override;
 
 private:
+  void initAnimations();
+  void startSelectionAnimation();
   Ui::FilterWidget *ui;
   Filter &mFilter;
+
+  QPropertyAnimation mSelectionAnimation;
 
   QImage mDefaultSourcePicture;
   QImage mSourcePicture;

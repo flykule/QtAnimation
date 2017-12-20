@@ -10,10 +10,11 @@ FilterWidget::FilterWidget(Filter &filter, QWidget *parent)
       mDefaultSourcePicture(":/lenna.jpg"), mSourcePicture(),
       mSourceThumbnail(mDefaultSourcePicture.scaled(
           QSize(256, 256), Qt::KeepAspectRatio, Qt::SmoothTransformation)),
-      mFilteredPicture(), mFilteredThumbnail() {
+      mSelectionAnimation(), mFilteredPicture(), mFilteredThumbnail() {
   ui->setupUi(this);
   ui->titleLabel->setText(mFilter.name());
 
+  initAnimations();
   updateThumbnail();
 }
 
@@ -44,4 +45,26 @@ void FilterWidget::updateThumbnail() {
 
 QString FilterWidget::title() const { return mFilter.name(); }
 
-void FilterWidget::mousePressEvent(QMouseEvent *) { process(); }
+void FilterWidget::mousePressEvent(QMouseEvent *) {
+  process();
+  startSelectionAnimation();
+}
+
+void FilterWidget::initAnimations() {
+  mSelectionAnimation.setTargetObject(ui->thumbnailLabel);
+  mSelectionAnimation.setPropertyName("geometry");
+  mSelectionAnimation.setDuration(200);
+}
+
+void FilterWidget::startSelectionAnimation() {
+  if (mSelectionAnimation.state() == QAbstractAnimation::Stopped) {
+    QRect currentGeometry = ui->thumbnailLabel->geometry();
+    QRect targetGeometry = ui->thumbnailLabel->geometry();
+    targetGeometry.setY(targetGeometry.y() - 50.0);
+
+    mSelectionAnimation.setKeyValueAt(0, currentGeometry);
+    mSelectionAnimation.setKeyValueAt(0.3, targetGeometry);
+    mSelectionAnimation.setKeyValueAt(1, currentGeometry);
+    mSelectionAnimation.start();
+  }
+}
