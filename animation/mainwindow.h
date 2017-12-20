@@ -7,6 +7,9 @@
 
 #include "filterloader.h"
 
+#include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
+
 namespace Ui {
 class MainWindow;
 }
@@ -30,6 +33,7 @@ private slots:
 
 private:
   void initFilters();
+  void initAnimations();
   void updatePicturePixmap();
 
   QImage mSourcePicture;
@@ -40,6 +44,9 @@ private:
   FilterLoader mFilterLoader;
   FilterWidget *mCurrentFilter;
   QVector<FilterWidget *> mFilters;
+
+  QPropertyAnimation mLoadPictureANimation;
+  QGraphicsOpacityEffect mPictureOpacityEffect;
   Ui::MainWindow *ui;
 };
 

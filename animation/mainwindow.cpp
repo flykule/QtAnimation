@@ -9,7 +9,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), mSourcePicture(),
       mSourceThumbnail(), mCurrentPixmap(), mFilterLoader(),
-      mCurrentFilter(nullptr), mFilteredPicture(mSourcePicture), mFilters() {
+      mLoadPictureANimation(), mPictureOpacityEffect(), mCurrentFilter(nullptr),
+      mFilteredPicture(mSourcePicture), mFilters() {
   ui->setupUi(this);
   ui->pictureLabel->setMinimumSize(1, 1);
   ui->actionSaveAs->setEnabled(false);
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->actionSaveAs, &QAction::triggered, this,
           &MainWindow::saveAsPicture);
   initFilters();
+  initAnimations();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -39,6 +41,7 @@ void MainWindow::loadPicture() {
     mFilters[i]->updateThumbnail();
   }
   mCurrentFilter->process();
+  mLoadPictureANimation.start();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {}
@@ -72,6 +75,16 @@ void MainWindow::initFilters() {
   if (mFilters.length() > 0) {
     mCurrentFilter = mFilters[0];
   }
+}
+
+void MainWindow::initAnimations() {
+  ui->pictureLabel->setGraphicsEffect(&mPictureOpacityEffect);
+  mLoadPictureANimation.setTargetObject(&mPictureOpacityEffect);
+  mLoadPictureANimation.setPropertyName("opacity");
+  mLoadPictureANimation.setDuration(500);
+  mLoadPictureANimation.setStartValue(0);
+  mLoadPictureANimation.setEndValue(1);
+  mLoadPictureANimation.setEasingCurve(QEasingCurve::InExpo);
 }
 
 void MainWindow::updatePicturePixmap() {
