@@ -11,5 +11,6 @@ OTHER_FILES += \
 SUBDIRS += \
     filter-plugin-original \
     filter-plugin-grayscale \
-    filter-plugin-blur
+    filter-plugin-blur \
+    animation
 

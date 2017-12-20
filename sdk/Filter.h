@@ -4,8 +4,8 @@ class Filter {
 public:
   virtual ~Filter() {}
   virtual QString name() const = 0;
-  virtual QImage porcess(const QImage &image) = 0;
-}
+  virtual QImage process(const QImage &image) = 0;
+};
 
 #define Filter_iid "org.masteringqt.imageanimation.filters.Filter"
 Q_DECLARE_INTERFACE(Filter, Filter_iid)

@@ -14,7 +14,7 @@ public:
   // Filter interface
 public:
   QString name() const;
-  QImage porcess(const QImage &image);
+  QImage process(const QImage &image);
 };
 
 #endif // FILTERGRAYSCALE_H

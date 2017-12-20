@@ -7,7 +7,7 @@ FilterGrayscale::~FilterGrayscale() {}
 
 QString FilterGrayscale::name() const { return "Grayscale"; }
 
-QImage FilterGrayscale::porcess(const QImage &image) {
+QImage FilterGrayscale::process(const QImage &image) {
   // QImage->cv::mat
   cv::Mat tmp(image.height(), image.width(), CV_8UC4, (uchar *)image.bits(),
               image.bytesPerLine());

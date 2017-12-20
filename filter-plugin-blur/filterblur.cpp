@@ -7,7 +7,7 @@ FilterBlur::~FilterBlur() {}
 
 QString FilterBlur::name() const { return "Blur"; }
 
-QImage FilterBlur::porcess(const QImage &image) {
+QImage FilterBlur::process(const QImage &image) {
   // QImage->cv::mat
   cv::Mat tmp(image.height(), image.width(), CV_8UC4, (uchar *)image.bits(),
               image.bytesPerLine());

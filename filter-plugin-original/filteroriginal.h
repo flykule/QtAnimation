@@ -15,7 +15,7 @@ public:
   // Filter interface
 public:
   QString name() const override;
-  QImage porcess(const QImage &image) override;
+  QImage process(const QImage &image) override;
 };
 
 #endif // FILTERORIGINAL_H
